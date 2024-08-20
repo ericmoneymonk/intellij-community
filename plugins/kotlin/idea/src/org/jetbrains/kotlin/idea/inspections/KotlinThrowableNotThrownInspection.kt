@@ -27,7 +27,6 @@ import org.jetbrains.kotlin.resolve.BindingContext
 class KotlinThrowableNotThrownInspection : AbstractKotlinInspection() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = callExpressionVisitor(fun(callExpression) {
         val calleeExpression = callExpression.calleeExpression ?: return
-        if (!calleeExpression.text.let { it.contains("Exception") || it.contains("Error") }) return
         if (TestUtils.isInTestSourceContent(callExpression)) return
         val resultingDescriptor = callExpression.resolveToCall()?.resultingDescriptor ?: return
         val type = resultingDescriptor.returnType ?: return
